@@ -1,0 +1,66 @@
+<html>
+<head>
+    
+    <meta charset="utf-8">
+    <title>Librairie HYPO.js - Exemples</title>
+    
+    <link rel="stylesheet" media="screen" type="text/css" href="css/bootstrap.min.css" />
+    <script src="js/jquery/jquery.js"></script>
+    <script src="js/bootstrap/bootstrap.min.js"></script>
+    <script src="js/hypo.js"></script>
+    
+</head>
+
+    <body>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <h1>Exemples - Librairie HYPO.js</h1>
+                    
+                    <h3>Conversion de taux avec Hypo.convTx</h3>
+                    <pre>Hypo.convTx = function convTx(taux, pOri, pDest, dec)</pre>
+                    <form name="frmExemple1" id="frmExemple1">
+                        <div class="form-group ">
+                            <label  for="taux">Taux d'origine :</label>
+                            <input class="form-control" type="text" id="taux" name="taux" placeholder="0.01" /> 
+                        </div>
+                        <div class="form-group">
+                            <label for="p1">Périodicité taux origine :</label>
+                            <select class="form-control" id="p1" name="p1" > 
+                                <option value="1">Annuel</option>
+                                <option value="2">Semestriel</option>
+                                <option value="3">Trismestriel</option>
+                                <option value="12">Mensuel</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="p2">Périodicité taux de destination :</label>
+                            <select class="form-control" id="p2" name="p2" > 
+                                <option value="1">Annuel</option>
+                                <option value="2">Semestriel</option>
+                                <option value="3">Trismestriel</option>
+                                <option value="12">Mensuel</option>
+                            </select>
+                        </div> 
+                        
+                        
+                        <button class="btn btn-primary"  id="btnCalculer">Calculer</button>
+                        
+                        
+                        <div class="form-group">
+                            <label for="res">Résultat :</label>
+                            <input type="text" class="form-control" disabled="" name="res" id="res" />
+                        </div>
+                       
+                    </form>
+                </div>
+            </div>
+        </div>
+        
+     <script src="js/exemple.js"></script>   
+        
+    </body>
+
+
+</html>

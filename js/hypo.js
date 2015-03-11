@@ -10,6 +10,7 @@
     var Hypo = {},
         root = this,
         alias1;
+        
     Hypo.VERSION = '0.1a';
 
     if (typeof alias === "string" && alias.length > 0) {
@@ -27,7 +28,7 @@
     } else {
         root[alias1] = Hypo;
     }
-//-----------------------------------   
+//-----------------------------------
     /**
      * Calcul de l'arrondi d'un nombre
      * @param {number} m nombre à arrondir
@@ -42,25 +43,26 @@
         }
         return montantArrondi;
     };
-    
+
     /**
      * Conversion d'un taux périodique vers une autre période
      * @param {float} taux taux à convertir
      * @param {number} pOri période de départ (1:annuel, 2:semestriel, 4:trimestriel, 12:mensuel)
      * @param {number} pDest période de "destination" (1:annuel, 2:semestriel, 4:trimestriel, 12:mensuel)
+     * @param {number} dec nombre de décimales à appliquer au résultat;
      * @return {float} nombre arronditaux converti
     */
     Hypo.convTx = function convTx(taux, pOri, pDest, dec) {
         var tx = Math.pow(1 + taux, pOri / pDest) - 1;
         return arrondi(tx, dec);
     };
-   
+
     /**
-     * Calcul de la valeur acquise d'un capital K placé pendant n périodes 
+     * Calcul de la valeur acquise d'un capital K placé pendant n périodes
      * à un taux t (intérêts composés)
      *
      *   Kn = K0 * (1 + t)^n
-     *     
+     *
      * @param {number} K0 capital de départ
      * @param {number} n  nombre de périodes
      * @param {float} t taux d'intérêt pour la période
@@ -71,19 +73,19 @@
         var K = K0 * Math.pow(1 + t, n);
         return arrondi(K, dec);
     };
-    
+
     /**
-     * Calcul de la valeur acquise d'une suite de placements pendant n périodes 
+     * Calcul de la valeur acquise d'une suite de placements pendant n périodes
      * à un taux t (intérêts composés)
      *
-     *               (1 +t )^n -1 
+     *               (1 +t )^n -1
      *   Kn = m *  -----------------
-     *                      t  
-     *     
+     *                      t
+     *
      * @param {float} m mensualité
      * @param {number} n  nombre de périodes
      * @param {float} t taux d'intérêt pour la période
-     * @param {number} dec nombre de décimales dans le résultat (optionnel)  
+     * @param {number} dec nombre de décimales dans le résultat (optionnel)
      * @return {float} valeur acquise
     */
     Hypo.VC = function VC(m, n, t, dec) {
@@ -98,7 +100,7 @@
      *            kn
      *   K0 = ------------
      *         (1 + t)^n
-     *     
+     *
      * @param {number} Kn capital acquis
      * @param {number} n  nombre de périodes
      * @param {float} t taux d'intérêt pour la période
@@ -117,11 +119,11 @@
      *              1 - (1 + t)^-n
      *   K0 =  m * ----------------
      *                   i
-     *     
+     *
      * @param {float} m mensualité
      * @param {number} n  nombre de périodes
      * @param {float} t taux d'intérêt pour la période
-     * @param {number} dec nombre de décimales dans le résultat (optionnel)   
+     * @param {number} dec nombre de décimales dans le résultat (optionnel)
      * @return {float} valeur actuelle
     */
     Hypo.VA = function VA(m, n, t, dec) {
@@ -136,13 +138,13 @@
      *            Kn
      *   r =  ----------
      *            K0
-     *            
+     *
      *   t =  r^(1/n) - 1
-     *     
+     *
      * @param {number} K0 capital de départ
      * @param {number} Kn capital acquis
      * @param {number} n  nombre de périodes
-     * @param {number} dec nombre de décimales dans le résultat (optionnel)  
+     * @param {number} dec nombre de décimales dans le résultat (optionnel)
      * @return {float} taux
     */
     Hypo.Taux_K = function Taux_K(K0, Kn, n, dec) {
@@ -160,7 +162,7 @@
      * @param {number} K0 capital emprunté
      * @param {number} n  nombre de périodes
      * @param {float} m mensualité
-     * @param {number} dec nombre de décimales dans le résultat (optionnel)  
+     * @param {float} f monant des frais éventuels
      * @return {float} taux
     */
 
@@ -168,14 +170,14 @@
         /* détermination par la méthode de NEWTON
            qui dit en gros :
 
-           x - P(x) / P'(x)    P'(x) étant la dérivée de P(x) 
+           x - P(x) / P'(x)    P'(x) étant la dérivée de P(x)
            il faut alors "itérer x" pour obtenir le moment ou différence aboutit à 0
 
            Dans le cas de nos prêt, çà donne :
 
            P(t) = K0/M * t * (1 + t)^n - (1 + t)^n + 1 = 0
 
-           et 
+           et
 
            P'(t) = K0/M * (1+t)^n + K0/M * n * t * (1 + t)^(n-1) - n * (1+t)^(n-1)
 
@@ -211,21 +213,21 @@
 
     /**
      * CalCul de la durée d'un placement en fonction du capital de départ,
-     * du capital acquis et du taux 
+     * du capital acquis et du taux
      *
      *            Kn
      *   r =  ----------
      *            K0
-     *   
+     *
      *           log(r)
      *   t =  ------------
      *           log(1+t)
      *
      * @param {number} K0 capital de départ
      * @param {number} Kn capital acquis
-     * @param {number} n  nombre de périodes
-     * @param {number} dec nombre de décimales dans le résultat (optionnel) 
-     * @return {object} 
+     * @param {number} t  taux appliqué
+     * @param {number} dec nombre de décimales dans le résultat (optionnel)
+     * @return {object}
     */
     Hypo.duree_K = function duree_K(K0, Kn, t, dec) {
         var r = Kn / K0;
@@ -234,7 +236,7 @@
         var mois = (duree - annees) * 12;
         var jours = parseInt((mois - parseInt(mois, 10)) * 30, 10);
         mois = parseInt(mois, 10);
- 
+
         return {
             duree : duree,
             annees : annees,
@@ -250,12 +252,12 @@
      *
      *             K0 * t
      *   m = ------------------
-     *          1 - (1 + t)^-n 
+     *          1 - (1 + t)^-n
      *
      * @param {number} K0 capital emprunté
      * @param {number} n  nombre de périodes
      * @param {float} t taux d'intérêt pour la période
-     * @param {number} dec nombre de décimales dans le résultat (optionnel)  
+     * @param {number} dec nombre de décimales dans le résultat (optionnel)
      * @return {float} mensualité
     */
     Hypo.mensualite = Hypo.VPM = function VPM(K0, n, t, dec) {
@@ -272,29 +274,29 @@
      *   m = Kn * ----------------
      *               (1 +t)^n -1
      *
-     * @param {number} K0 capital emprunté
+     * @param {number} Kn capital acquis
      * @param {number} n  nombre de périodes
      * @param {float} t taux d'intérêt pour la période
-     * @param {number} dec nombre de décimales dans le résultat (optionnel)  
-     * @return {float} mensualité     
+     * @param {number} dec nombre de décimales dans le résultat (optionnel)
+     * @return {float} mensualité
     */
     Hypo.mensualite_Kn = Hypo.VPM_Kn = function VPM_Kn(Kn, n, t, dec) {
         return arrondi(Kn * t / ((Math.pow(1 + t, n) - 1)), dec);
     };
 
     /**
-     * Calcul de l'amortissement (A) de 1ere période 
+     * Calcul de l'amortissement (A) de 1ere période
      * d'un emprunt K0 souscrit pour n périodes à un taux t
      *
-     *           K0 * t 
-     *   A = -------------    
+     *           K0 * t
+     *   A = -------------
      *        (1 +t)^n -1
      *
      * @param {number} K0 capital emprunté
      * @param {number} n  nombre de périodes
      * @param {float} t taux d'intérêt pour la période
      * @param {number} dec nombre de décimales dans le résultat (optionnel)
-     * @return {float} amortissement de la 1ere période     
+     * @return {float} amortissement de la 1ere période
     */
     Hypo.princPer1 = Hypo.amortissementP1 = function amortissementP1(K0, n, t, dec) {
         var A = (K0 * t) / (Math.pow(1 + t, n) - 1);
@@ -313,8 +315,8 @@
      * @param {number} n  nombre de périodes
      * @param {float} t taux d'intérêt pour la période
      * @param {number} p période de calcul de l'amortissement
-     * @param {number} dec nombre de décimales dans le résultat (optionnel)  
-     * @return {float} amortissement de la période p    
+     * @param {number} dec nombre de décimales dans le résultat (optionnel)
+     * @return {float} amortissement de la période p
      */
     Hypo.princPer = Hypo.amortissementPn = function amortissementPn(K0, n, t, p, dec) {
         var A = this.princPer1(K0, n, t, p, dec);
@@ -331,7 +333,7 @@
      *
      * @param {number} n  nombre de périodes
      * @param {float} t taux d'intérêt pour la période
-     * @param {number} apn montant de l'amortissement à la période p1
+     * @param {number} apn1 montant de l'amortissement à la période p1
      * @param {number} p1 période de l'amortissement donné
      * @param {number} p2 période de calcul de l'amortissement
      * @param {number} dec nombre de décimales dans le résultat (optionnel)
@@ -341,19 +343,19 @@
         var apn2 = apn1 * Math.pow(1 + t, p2 - p1);
         return arrondi(apn2, dec);
     };
-    
+
     Hypo.cumulPrinc = function cumulPrinc(K0, n, t, p1, p2, dec) {
         var pp1 = p1,
             pp2 = p2,
             sump = 0,
             m = this.mensualite(K0, n, t, dec);
-         
+
         while (pp1 <= pp2) {
             sump = sump + this.amortissementPn(K0, n, t, pp1);
             pp1++;
         }
         return arrondi(sump,dec);
-    }
+    };
 
     /**
      * Calcul de l'intérêt (ipn) de la période p
@@ -369,7 +371,7 @@
      * @param {float} t taux d'intérêt pour la période
      * @param {number} p période de calcul de l'amortissement
      * @param {number} dec nombre de décimales dans le résultat (optionnel)
-     * @return {float} intérêts de la période p      
+     * @return {float} intérêts de la période p
      */
     Hypo.intPer = Hypo.interetsPn = function interetsPn(K0, n, t, p, dec) {
         var m = this.mensualite(K0, n, t, dec);
@@ -382,18 +384,18 @@
             ip2 = p2,
             sumi = 0,
             m = this.mensualite(K0, n, t, dec);
-         
+
         while (ip1 <= ip2) {
             sumi = sumi + (m - this.amortissementPn(K0, n, t, ip1));
             ip1++;
         }
         return arrondi(sumi,dec);
-    }
-    
+    };
+
     Hypo.intTotaux = function intTotaux(K0, m, n, dec) {
         return arrondi((m * n) - K0, dec);
-    }        
-    
+    };
+
     /**
      * Calcul du solde restant dû à la période p d'un emprunt K0 souscrit pour n périodes
      * à un taux t
@@ -407,17 +409,17 @@
      * @param {number} n  nombre de périodes
      * @param {float} t taux d'intérêt pour la période
      * @param {number} p période pour laquelle on veut déterminer le solde restant dû
-     * @param {number} dec nombre de décimales dans le résultat (optionnel)  
-     * @return {float} montant du solde restant dû à la période p 
+     * @param {number} dec nombre de décimales dans le résultat (optionnel)
+     * @return {float} montant du solde restant dû à la période p
      */
     Hypo.SRDPn_K =  function SRDPn_K(K0, n, t, p, dec) {
         var m = this.mensualite(K0, n, t);
         var kpn = m * (1 - Math.pow(1 + t, -(n - p))) / t;
         return arrondi(kpn, dec);
     };
-    
+
     /**
-     * Calcul du solde restant dû à la période p d'un emprunt remboursé en n 
+     * Calcul du solde restant dû à la période p d'un emprunt remboursé en n
      * période d'un montant m à un taux t
      *
      *                   1 - (1+t)^(-(n-p))
@@ -428,8 +430,8 @@
      * @param {number} n  nombre de périodes
      * @param {float} t taux d'intérêt pour la période
      * @param {number} p période pour laquelle on veut déterminer le solde restant dû
-     * @param {number} dec nombre de décimales dans le résultat (optionnel)  
-     * @return {float} montant du solde restant dû à la période p 
+     * @param {number} dec nombre de décimales dans le résultat (optionnel)
+     * @return {float} montant du solde restant dû à la période p
      */
     Hypo.SRDPn = function SRDPn(m, n, t, p, dec) {
         var kpn = m * (1 - Math.pow(1 + t, -(n - p))) / t;
@@ -445,17 +447,17 @@
      *   Kr =  A * ----------------------
      *                        t
      *
-     *   A = amortissement de la période 1 
+     *   A = amortissement de la période 1
      *
      * @param {number} K0 capital emprunté
      * @param {number} n  nombre de périodes
      * @param {float} t taux d'intérêt pour la période
      * @param {number} p période pour laquelle on veut déterminer le solde restant dû
-     * @param {number} dec nombre de décimales dans le résultat (optionnel) 
-     * @return {float} montant de l'emprunt déjà remboursé à la période p     
+     * @param {number} dec nombre de décimales dans le résultat (optionnel)
+     * @return {float} montant de l'emprunt déjà remboursé à la période p
     */
     Hypo.capRmb =  function CapRmb(K0, n, t, p, dec) {
-        
+
         var A = Hypo.amortissementP1(K0, n, t);
         var Kr = A * ((Math.pow(1 + t, p) - 1) / t);
 
@@ -469,7 +471,7 @@
             min = arrondi(t, 6),
             max = 1,
             tst = (min + max) / 2;
- 
+
         var val_polyn = function (p_test) {
             return mens * (1 - Math.pow(1 + p_test, -n)) / p_test - K0 + f;
         };
@@ -535,15 +537,15 @@
     for (var j in periodes)
     {
         for(var i in periodes) {
-          if(i!==j) { 
-              Hypo['tx' + j + i] = 
+          if(i!==j) {
+              Hypo['tx' + j + i] =
               function(ori,dest) {
                   var r= function(taux, dec) {
-                  return Hypo.convTx(taux, ori, dest, dec);
-                  }
+                    return Hypo.convTx(taux, ori, dest, dec);
+                  };
                   return r;
               }(periodes[j], periodes[i]);
           }
         }
-    }        
+    }
 })();
