@@ -1,2 +1,2 @@
 # Hypo
-Librairie Javascript reprenant un ensemble de fonctions financières utilisées dans le cadre de prêt hypothécaire ou à tempéraement
+Librairie Javascript reprenant un ensemble de fonctions financières utilisées dans le cadre de prêt hypothécaire ou à tempérament
