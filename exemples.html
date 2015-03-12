@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html>
 <head>
     
@@ -5,6 +6,7 @@
     <title>Librairie HYPO.js - Exemples</title>
     
     <link rel="stylesheet" media="screen" type="text/css" href="css/bootstrap.min.css" />
+    <link rel="stylesheet" media="screen" type="text/css" href="css/exemples.css" />
     <script src="js/jquery/jquery.js"></script>
     <script src="js/bootstrap/bootstrap.min.js"></script>
     <script src="js/hypo.js"></script>
@@ -12,53 +14,111 @@
 </head>
 
     <body>
-        <div class="container">
+        <div class="container exemples">
             <div class="row">
-                <div class="col-md-6">
-                    <h1>Exemples - Librairie HYPO.js</h1>
+            
+                <div class="col-md-3"></div>    
+             
+                <div class="col-md-9">
+                
+                    <!--  EXEMPLE 1 - CONVERSION DE TAUX - HYPO.CONVTX  -->
+                    <hr>
+                    <h4>Hypo.convTx - Conversion de taux</h4>
+                    <div class="col-md-12 exemple" >
+
+                        <pre>Hypo.convTx = function convTx(taux, pOri, pDest, dec)
+    - taux : taux à convertir
+    - pOri : Périodicité d'origine (1: annuel, 2 : semestriel, 4: trimestriel, 12: mensuel
+    - pDest : Périodicité de destination (1: annuel, 2 : semestriel, 4: trimestriel, 12: mensuel
+    - dec : nombre de décimales dans le résultat
+                        </pre>
+                        <form name="frmExemple1" id="frmExemple1">
+                            <div class="form-group ">
+                                <label  for="taux_1">Taux d'origine :</label>
+                                <input class="form-control" type="text" id="taux_1" name="taux" placeholder="0.01" /> 
+                            </div>
+                            <div class="form-group">
+                                <label for="p1_1">Périodicité taux origine :</label>
+                                <select class="form-control" id="p1_1" name="p1" > 
+                                    <option value="1" selected>Annuel</option>
+                                    <option value="2">Semestriel</option>
+                                    <option value="3">Trismestriel</option>
+                                    <option value="12">Mensuel</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="p2_1">Périodicité taux de destination :</label>
+                                <select class="form-control" id="p2_1" name="p2" > 
+                                    <option value="1">Annuel</option>
+                                    <option value="2">Semestriel</option>
+                                    <option value="3">Trismestriel</option>
+                                    <option value="12" selected>Mensuel</option>
+                                </select>
+                            </div> 
+
+
+                            <button class="btn btn-primary"  id="btnCalculer_1">Calculer</button>
+
+
+                            <div class="form-group">
+                                <br>
+                                <label for="res">Résultat :</label>
+                                <input type="text" class="form-control" disabled="" name="res" id="res_1" />
+                            </div>
+
+                        </form>
+                    </div>
                     
-                    <h3>Conversion de taux avec Hypo.convTx</h3>
-                    <pre>Hypo.convTx = function convTx(taux, pOri, pDest, dec)</pre>
-                    <form name="frmExemple1" id="frmExemple1">
-                        <div class="form-group ">
-                            <label  for="taux">Taux d'origine :</label>
-                            <input class="form-control" type="text" id="taux" name="taux" placeholder="0.01" /> 
-                        </div>
-                        <div class="form-group">
-                            <label for="p1">Périodicité taux origine :</label>
-                            <select class="form-control" id="p1" name="p1" > 
-                                <option value="1" selected>Annuel</option>
-                                <option value="2">Semestriel</option>
-                                <option value="3">Trismestriel</option>
-                                <option value="12">Mensuel</option>
-                            </select>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="p2">Périodicité taux de destination :</label>
-                            <select class="form-control" id="p2" name="p2" > 
-                                <option value="1">Annuel</option>
-                                <option value="2">Semestriel</option>
-                                <option value="3">Trismestriel</option>
-                                <option value="12" selected>Mensuel</option>
-                            </select>
-                        </div> 
-                        
-                        
-                        <button class="btn btn-primary"  id="btnCalculer">Calculer</button>
-                        
-                        
-                        <div class="form-group">
-                            <label for="res">Résultat :</label>
-                            <input type="text" class="form-control" disabled="" name="res" id="res" />
-                        </div>
-                       
-                    </form>
+                    
+                    <!--  EXEMPLE 2 - CALCUL DE LA MENSUALITE - HYPO.VPM  -->
+                    <hr>
+                    <h4>Hypo.VPM - Calcul de la mensualité d'un emprunt</h4>
+                    <div class="col-md-12 exemple">
+                        <pre>
+Hypo.mensualite = Hypo.VPM = function VPM(K0, n, t, dec)
+- K0 : capital emprunté
+- n : durée (exprimée en année, mois, ... selon la périodicité
+- t : taux de l'emprunt (selon la périodicité)
+- dec : nombre de décimales dans le résultat
+                        </pre>
+                        <form name="frmExemple2" id="frmExemple2">
+                             <div class="form-group ">
+                                <label  for="K0_2">Capital emprunté :</label>
+                                <input class="form-control" type="text" id="K0_2" name="K0" placeholder="100000" /> 
+                            </div>                           
+                            
+                            <div class="form-group ">
+                                <label  for="n_2">Duréee :</label>
+                                <input class="form-control" type="text" id="n_2" name="n" placeholder="20" /> 
+                            </div>                              
+                            
+                            <div class="form-group ">
+                                <label  for="t_2">Taux appliqué :</label>
+                                <input class="form-control" type="text" id="t_2" name="t" placeholder="0.05" /> 
+                            </div>
+
+
+                            <button class="btn btn-primary"  id="btnCalculer_2">Calculer</button>
+
+
+                            <div class="form-group">
+                                <br>
+                                <label for="res">Résultat :</label>
+                                <input type="text" class="form-control" disabled="" name="res_2" id="res_2" />
+                            </div>
+
+                        </form>
+                    </div>                    
+                    
+                    
+                    
                 </div>
             </div>
         </div>
         
-     <script src="js/exemple.js"></script>   
+     <script src="js/exemple1.js"></script>   
+     <script src="js/exemple2.js"></script>  
         
     </body>
 

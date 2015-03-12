@@ -29,6 +29,9 @@
         root[alias1] = Hypo;
     }
 //-----------------------------------
+
+
+
     /**
      * Calcul de l'arrondi d'un nombre
      * @param {number} m nombre à arrondir
@@ -44,6 +47,28 @@
         return montantArrondi;
     };
 
+    
+    /**
+     * Conversion d'une variable en nombre (si possible)
+     * @param p variable à convertir en nombre
+     * @return {float} nombre
+    */    
+    Hypo.convStrNum = function convStrNum(p) {
+        if (typeof p === 'number') {
+            return p;
+        }
+        if(typeof p ==='string')
+        {
+            var c = p.replace(',' , '.').replace(' ' , '');
+
+            if (!isNaN(c)) {
+                return parseFloat(c);
+            } 
+        }
+        return NaN;       
+    };    
+    
+
     /**
      * Conversion d'un taux périodique vers une autre période
      * @param {float} taux taux à convertir
@@ -53,7 +78,13 @@
      * @return {float} nombre arronditaux converti
     */
     Hypo.convTx = function convTx(taux, pOri, pDest, dec) {
-        if (pOri == pDest) {
+        
+        taux  = this.convStrNum(taux);
+        pOri  = this.convStrNum(pOri);
+        pDest = this.convStrNum(pDest);
+        dec   = this.convStrNum(dec);
+        
+        if (pOri === pDest) {
             return taux;
         }
         var tx = Math.pow(1 + taux, pOri / pDest) - 1;
@@ -264,6 +295,12 @@
      * @return {float} mensualité
     */
     Hypo.mensualite = Hypo.VPM = function VPM(K0, n, t, dec) {
+        
+        K0  = this.convStrNum(K0);
+        n  = this.convStrNum(n);
+        t = this.convStrNum(t);
+        dec   = this.convStrNum(dec);
+        
         return arrondi(K0 * t / (1 - Math.pow(1 + t, -n)), dec);
     };
 

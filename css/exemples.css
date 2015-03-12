@@ -1,0 +1,23 @@
+/*
+    Created on : 12-mars-2015, 22:06:55
+    Author     : vincent
+*/
+
+
+.exemples h4 {
+   margin-top: 20px;
+   font-weight: bold;
+}
+
+.exemple {
+    background-color: #FAFAFA;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    padding-top : 20px;
+    padding-bottom: 20px;
+    
+    border: 1px solid #F1F1F1;
+        
+        
+}
+
