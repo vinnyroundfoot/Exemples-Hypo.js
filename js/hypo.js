@@ -53,6 +53,9 @@
      * @return {float} nombre arronditaux converti
     */
     Hypo.convTx = function convTx(taux, pOri, pDest, dec) {
+        if (pOri == pDest) {
+            return taux;
+        }
         var tx = Math.pow(1 + taux, pOri / pDest) - 1;
         return arrondi(tx, dec);
     };
