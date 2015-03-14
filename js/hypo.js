@@ -161,6 +161,12 @@
      * @return {float} valeur actuelle
     */
     Hypo.VA = function VA(m, n, t, dec) {
+        
+        m  = this.convStrNum(m);
+        n  = this.convStrNum(n);
+        t  = this.convStrNum(t);
+        dec   = this.convStrNum(dec); 
+        
         var Kzero = m * (1 - Math.pow(1 + t, -n)) / t;
         return arrondi(Kzero, dec);
     };
@@ -196,7 +202,7 @@
      * @param {number} K0 capital emprunté
      * @param {number} n  nombre de périodes
      * @param {float} m mensualité
-     * @param {float} f monant des frais éventuels
+     * @param {float} f montant des frais éventuels
      * @return {float} taux
     */
 
@@ -222,6 +228,12 @@
            on va donc fixer une valeur de départ à t0 et recalculer succivement tx2 = tx1 - P(t1)/P'(t1)
            jusqu'au moment où le résultat ne va plus évoluer
         */
+       
+        m  = this.convStrNum(m);
+        n  = this.convStrNum(n);
+        K0 = this.convStrNum(K0);
+        f  = this.convStrNum(f);
+       
         if (!(typeof f !== "undefined" && parseInt(f, 10) === f)) {
             f = 0;
         }
@@ -264,6 +276,12 @@
      * @return {object}
     */
     Hypo.duree_K = function duree_K(K0, Kn, t, dec) {
+        
+        K0  = this.convStrNum(K0);
+        Kn  = this.convStrNum(Kn);
+        t   = this.convStrNum(t);   
+        dec  = this.convStrNum(dec);
+        
         var r = Kn / K0;
         var duree = Math.log(r) / Math.log(1 + t);
         var annees = parseInt(duree, 10);
@@ -277,6 +295,31 @@
             mois : mois,
             jours : jours
         };
+    };
+
+    /**
+     * CalCul de la durée d'un placement en fonction du capital à obtenir,
+     * de la mensualité et du taux
+     *
+     *
+     *           
+     *          log(m) - log(m - KO * t)
+     *   n =  -----------------------------
+     *                  log(1+t)
+     *
+     * @param {number} K0 capital emprunté
+     * @param {number} m mensualité
+     * @param {number} t  taux appliqué
+     * @param {number} dec nombre de décimales dans le résultat (optionnel)
+     * @return {object}
+    */
+    Hypo.duree = function duree(K0, m, t, dec) {
+        K0  = this.convStrNum(K0);
+        m   = this.convStrNum(m); 
+        t   = this.convStrNum(t);   
+        dec  = this.convStrNum(dec);
+        
+        return (Math.log(m) - Math.log(m - K0 * t)) / Math.log( 1 +t);
     };
 
     /**
@@ -295,12 +338,10 @@
      * @return {float} mensualité
     */
     Hypo.mensualite = Hypo.VPM = function VPM(K0, n, t, dec) {
-        
-        K0  = this.convStrNum(K0);
+         K0  = this.convStrNum(K0);
         n  = this.convStrNum(n);
         t = this.convStrNum(t);
         dec   = this.convStrNum(dec);
-        
         return arrondi(K0 * t / (1 - Math.pow(1 + t, -n)), dec);
     };
 
@@ -359,9 +400,21 @@
      * @return {float} amortissement de la période p
      */
     Hypo.princPer = Hypo.amortissementPn = function amortissementPn(K0, n, t, p, dec) {
-        var A = this.princPer1(K0, n, t, p, dec);
-        var Apn = Math.pow(1 + t, p - 1) * A;
-        return arrondi(Apn, dec);
+        
+        K0  = this.convStrNum(K0);
+        n   = this.convStrNum(n);
+        t   = this.convStrNum(t);
+        p   = this.convStrNum(p);
+        dec = this.convStrNum(dec);        
+        
+        
+        var A = this.princPer1(K0, n, t);
+        if (p===1) {
+           return arrondi(A, dec); 
+        }else{
+            var Apn = Math.pow(1 + t, p - 1) * A;
+            return arrondi(Apn, dec);
+        }
     };
 
     /**
@@ -384,7 +437,27 @@
         return arrondi(apn2, dec);
     };
 
+    /**
+     * Calcul des amortissements cumulés de la période p1
+     * à la période p2 d'un emprunt souscrit pour n périodes à un taux t
+  
+     * @param {number} K0  capital de départ 
+     * @param {number} n  nombre de périodes
+     * @param {float} t taux d'intérêt pour la période
+     * @param {number} p1 période de début 
+     * @param {number} p2 période de fin
+     * @param {number} dec nombre de décimales dans le résultat (optionnel)
+     * @return {float} amortissements cumulés de la période p1 à p2
+     */
     Hypo.cumulPrinc = function cumulPrinc(K0, n, t, p1, p2, dec) {
+        
+        K0  = this.convStrNum(K0);
+        n   = this.convStrNum(n);
+        t   = this.convStrNum(t);
+        p1   = this.convStrNum(p1);
+        p2   = this.convStrNum(p2);        
+        dec = this.convStrNum(dec);  
+        
         var pp1 = p1,
             pp2 = p2,
             sump = 0,
@@ -414,6 +487,13 @@
      * @return {float} intérêts de la période p
      */
     Hypo.intPer = Hypo.interetsPn = function interetsPn(K0, n, t, p, dec) {
+        
+        K0  = this.convStrNum(K0);
+        n   = this.convStrNum(n);
+        t   = this.convStrNum(t);
+        p   = this.convStrNum(p);
+        dec = this.convStrNum(dec);  
+        
         var m = this.mensualite(K0, n, t, dec);
         var apn = this.amortissementPn(K0, n, t, p, dec);
         return arrondi(m - apn, dec);

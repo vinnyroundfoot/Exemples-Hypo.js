@@ -13,7 +13,7 @@ $(function(){
         if (p2==1) {
             dec = 3;
         }else{
-            dec = 6;
+            dec = 7;
         }
         
         var res = Hypo.convTx(taux, p1, p2, dec);

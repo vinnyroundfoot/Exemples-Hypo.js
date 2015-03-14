@@ -17,109 +17,513 @@
         <div class="container exemples">
             <div class="row">
             
-                <div class="col-md-3"></div>    
+                <div class="col-md-1"></div>    
              
-                <div class="col-md-9">
-                
-                    <!--  EXEMPLE 1 - CONVERSION DE TAUX - HYPO.CONVTX  -->
-                    <hr>
-                    <h4>Hypo.convTx - Conversion de taux</h4>
-                    <div class="col-md-12 exemple" >
+                <div class="col-md-10">
+                    <h1>Exemples d'utilisation des fonctions de Hypo.js</h1>    
+                    <br>
+                    
+                <div class="panel-group" id="accordion">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                              <a data-toggle="collapse" data-parent="#accordion" href="#collapse1">
+                              Hypo.convTx - Conversion de taux</a>
+                            </h4>
+                        </div>
+                        <div id="collapse1" class="panel-collapse collapse in">
+                          <div class="panel-body">
+                           <div class="param">
+                               <h4>Hypo.convTx = function convTx(taux, pOri, pDest, dec)</h4>
+                               <ul>
+                                   <li>taux : taux à convertir</li>
+                                    <li>pOri : Périodicité d'origine (1: annuel, 2 : semestriel, 4: trimestriel, 12: mensuel</li>
+                                    <li>pDest : Périodicité de destination (1: annuel, 2 : semestriel, 4: trimestriel, 12: mensuel</li>
+                                    <li>dec : nombre de décimales dans le résultat</li>                                
+                               </ul>
+                          </div>
+                            <form name="frmExemple1" id="frmExemple1">
+                                <div class="form-group ">
+                                    <label  for="taux_1">Taux d'origine :</label>
+                                    <input class="form-control" type="text" id="taux_1" name="taux" placeholder="0.01" /> 
+                                </div>
+                                <div class="form-group">
+                                    <label for="p1_1">Périodicité taux origine :</label>
+                                    <select class="form-control" id="p1_1" name="p1" > 
+                                        <option value="1" selected>Annuel</option>
+                                        <option value="2">Semestriel</option>
+                                        <option value="3">Trismestriel</option>
+                                        <option value="12">Mensuel</option>
+                                    </select>
+                                </div>
 
-                        <pre>Hypo.convTx = function convTx(taux, pOri, pDest, dec)
-    - taux : taux à convertir
-    - pOri : Périodicité d'origine (1: annuel, 2 : semestriel, 4: trimestriel, 12: mensuel
-    - pDest : Périodicité de destination (1: annuel, 2 : semestriel, 4: trimestriel, 12: mensuel
-    - dec : nombre de décimales dans le résultat
-                        </pre>
-                        <form name="frmExemple1" id="frmExemple1">
-                            <div class="form-group ">
-                                <label  for="taux_1">Taux d'origine :</label>
-                                <input class="form-control" type="text" id="taux_1" name="taux" placeholder="0.01" /> 
-                            </div>
-                            <div class="form-group">
-                                <label for="p1_1">Périodicité taux origine :</label>
-                                <select class="form-control" id="p1_1" name="p1" > 
-                                    <option value="1" selected>Annuel</option>
-                                    <option value="2">Semestriel</option>
-                                    <option value="3">Trismestriel</option>
-                                    <option value="12">Mensuel</option>
-                                </select>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="p2_1">Périodicité taux de destination :</label>
-                                <select class="form-control" id="p2_1" name="p2" > 
-                                    <option value="1">Annuel</option>
-                                    <option value="2">Semestriel</option>
-                                    <option value="3">Trismestriel</option>
-                                    <option value="12" selected>Mensuel</option>
-                                </select>
-                            </div> 
+                                <div class="form-group">
+                                    <label for="p2_1">Périodicité taux de destination :</label>
+                                    <select class="form-control" id="p2_1" name="p2" > 
+                                        <option value="1">Annuel</option>
+                                        <option value="2">Semestriel</option>
+                                        <option value="3">Trismestriel</option>
+                                        <option value="12" selected>Mensuel</option>
+                                    </select>
+                                </div> 
 
 
-                            <button class="btn btn-primary"  id="btnCalculer_1">Calculer</button>
+                                <button class="btn btn-primary"  id="btnCalculer_1">Calculer</button>
 
 
-                            <div class="form-group">
-                                <br>
-                                <label for="res">Résultat :</label>
-                                <input type="text" class="form-control" disabled="" name="res" id="res_1" />
-                            </div>
+                                <div class="form-group">
+                                    <br>
+                                    <label for="res_1">Résultat (taux converti):</label>
+                                    <input type="text" class="form-control" disabled="" name="res" id="res_1" />
+                                </div>
 
-                        </form>
+                            </form>
+                        </div>
+                        </div>
                     </div>
+
+                     <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                              <a data-toggle="collapse" data-parent="#accordion" href="#collapse2">
+                              Hypo.VPM - Calcul de la mensualité d'un emprunt</a>
+                            </h4>
+                        </div>
+                        <div id="collapse2" class="panel-collapse collapse in">
+                          <div class="panel-body">
+                           <div class="param">
+                               <h4>Hypo.mensualite = Hypo.VPM = function VPM(K0, n, t, dec)</h4>
+                               <ul>
+                                   <li>K0 : capital emprunté</li>
+                                    <li>n : durée (exprimée en année, mois, ... selon la périodicité</li>
+                                    <li>t : taux de l'emprunt (selon la périodicité)</li>
+                                    <li>dec : nombre de décimales dans le résultat</li>                                
+                               </ul>
+                          </div>
+                           <form name="frmExemple2" id="frmExemple2">
+                                 <div class="form-group ">
+                                    <label  for="K0_2">Capital emprunté :</label>
+                                    <input class="form-control" type="text" id="K0_2" name="K0" placeholder="100000" /> 
+                                </div>                           
+
+                                <div class="form-group ">
+                                    <label  for="n_2">Durée :</label>
+                                    <input class="form-control" type="text" id="n_2" name="n" placeholder="20" /> 
+                                </div>                              
+
+                                <div class="form-group ">
+                                    <label  for="t_2">Taux appliqué :</label>
+                                    <input class="form-control" type="text" id="t_2" name="t" placeholder="0.05" /> 
+                                </div>
+
+
+                                <button class="btn btn-primary"  id="btnCalculer_2">Calculer</button>
+
+
+                                <div class="form-group">
+                                    <br>
+                                    <label for="res_2">Résultat (mensualité) :</label>
+                                    <input type="text" class="form-control" disabled="" name="res_2" id="res_2" />
+                                </div>
+
+                            </form>
+                        </div>
+                        </div>
+                    </div>                   
+                    
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                              <a data-toggle="collapse" data-parent="#accordion" href="#collapse3">
+                              Hypo.VA - Calcul de la valeur actuelle d'un emprunt sur base de remboursements constants</a>
+                            </h4>
+                        </div>
+                        <div id="collapse3" class="panel-collapse collapse in">
+                          <div class="panel-body">
+                           <div class="param">
+                                <h4>Hypo.VA = function VA(m, n, t, dec) </h4>
+                               <ul>
+                                   <li>m : mensualité (remboursement constant)</li>
+                                    <li>n : durée (exprimée en année, mois, ... selon la périodicité</li>
+                                    <li>t : taux de l'emprunt (selon la périodicité)</li>
+                                    <li>dec : nombre de décimales dans le résultat</li>                                
+                               </ul>
+                          </div>
+                            <form name="frmExemple3" id="frmExemple3">
+                                 <div class="form-group ">
+                                    <label  for="m_3">Mensualité remboursée :</label>
+                                    <input class="form-control" type="text" id="m_3" name="m_3" placeholder="300" /> 
+                                </div>                           
+
+                                <div class="form-group ">
+                                    <label  for="n_3">Durée :</label>
+                                    <input class="form-control" type="text" id="n_3" name="n_3" placeholder="48" /> 
+                                </div>                              
+
+                                <div class="form-group ">
+                                    <label  for="t_3">Taux appliqué :</label>
+                                    <input class="form-control" type="text" id="t_3" name="t_3" placeholder="0.004074" /> 
+                                </div>
+
+
+                                <button class="btn btn-primary"  id="btnCalculer_3">Calculer</button>
+
+
+                                <div class="form-group">
+                                    <br>
+                                    <label for="res_3">Résultat (capital de départ):</label>
+                                    <input type="text" class="form-control" disabled="" name="res_3" id="res_3" />
+                                </div>
+
+                            </form>
+                        </div>
+                        </div>
+                    </div>                     
                     
                     
-                    <!--  EXEMPLE 2 - CALCUL DE LA MENSUALITE - HYPO.VPM  -->
-                    <hr>
-                    <h4>Hypo.VPM - Calcul de la mensualité d'un emprunt</h4>
-                    <div class="col-md-12 exemple">
-                        <pre>
-Hypo.mensualite = Hypo.VPM = function VPM(K0, n, t, dec)
-- K0 : capital emprunté
-- n : durée (exprimée en année, mois, ... selon la périodicité
-- t : taux de l'emprunt (selon la périodicité)
-- dec : nombre de décimales dans le résultat
-                        </pre>
-                        <form name="frmExemple2" id="frmExemple2">
-                             <div class="form-group ">
-                                <label  for="K0_2">Capital emprunté :</label>
-                                <input class="form-control" type="text" id="K0_2" name="K0" placeholder="100000" /> 
-                            </div>                           
-                            
-                            <div class="form-group ">
-                                <label  for="n_2">Duréee :</label>
-                                <input class="form-control" type="text" id="n_2" name="n" placeholder="20" /> 
-                            </div>                              
-                            
-                            <div class="form-group ">
-                                <label  for="t_2">Taux appliqué :</label>
-                                <input class="form-control" type="text" id="t_2" name="t" placeholder="0.05" /> 
-                            </div>
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                              <a data-toggle="collapse" data-parent="#accordion" href="#collapse4">
+                              Hypo.duree - Calcul de la durée de remboursement en fonction du capital de départ, de la mensualité et du taux</a>
+                            </h4>
+                        </div>
+                        <div id="collapse4" class="panel-collapse collapse in">
+                          <div class="panel-body">
+                           <div class="param">
+                                <h4>Hypo.duree = function duree(K0, m, t, dec)</h4>
+                               <ul>
+                                   <li>KO : capital emprunté</li>
+                                    <li>m : mensualité</li>
+                                    <li>t : taux de l'emprunt (selon la périodicité)</li>
+                                    <li>dec : nombre de décimales dans le résultat</li>                                
+                               </ul>
+                          </div>
+                            <form name="frmExemple4" id="frmExemple4">
+                                 <div class="form-group ">
+                                    <label  for="K0_4">Capital emprunté :</label>
+                                    <input class="form-control" type="text" id="K0_4" name="K0_4" placeholder="100000" /> 
+                                </div>                           
+
+                                <div class="form-group ">
+                                    <label  for="m_4">Mensualité :</label>
+                                    <input class="form-control" type="text" id="m_4" name="m_4" placeholder="500" /> 
+                                </div>                              
+
+                                <div class="form-group ">
+                                    <label  for="t_4">Taux selon périodicité :</label>
+                                    <input class="form-control" type="text" id="t_4" name="t_4" placeholder="0.004074" /> 
+                                </div>
 
 
-                            <button class="btn btn-primary"  id="btnCalculer_2">Calculer</button>
+                                <button class="btn btn-primary"  id="btnCalculer_4">Calculer</button>
 
 
-                            <div class="form-group">
-                                <br>
-                                <label for="res">Résultat :</label>
-                                <input type="text" class="form-control" disabled="" name="res_2" id="res_2" />
-                            </div>
+                                <div class="form-group">
+                                    <br>
+                                    <label for="res_4">Résultat (nombre de périodes):</label>
+                                    <input type="text" class="form-control" disabled="" name="res_4" id="res_4" />
+                                </div>
 
-                        </form>
-                    </div>                    
+                            </form>
+                        </div>
+                        </div>
+                    </div>                         
                     
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                              <a data-toggle="collapse" data-parent="#accordion" href="#collapse5">
+                              Hypo.taux - Détermination du taux d'un emprunt en fonction du capital de départ, de la mensualité et de la durée</a>
+                            </h4>
+                        </div>
+                        <div id="collapse5" class="panel-collapse collapse in">
+                          <div class="panel-body">
+                           <div class="param">
+                                <h4>Hypo.taux = function taux(K0, n, m, f)</h4>
+                                <p>Détermination selon la méthode de Newton</p>
+                               <ul>
+                                   <li>KO : capital emprunté</li>
+                                    <li>m : mensualité</li>
+                                    <li>n : durée</li>
+                                    <li>f : frais éventuels (intégré dans le taux final)</li>                                
+                               </ul>
+                          </div>
+                            <form name="frmExemple5" id="frmExemple5">
+                                 <div class="form-group ">
+                                    <label  for="K0_5">Capital emprunté :</label>
+                                    <input class="form-control" type="text" id="K0_5" name="K0_5" placeholder="100000" /> 
+                                </div>                           
+
+                                <div class="form-group ">
+                                    <label  for="m_5">Mensualité :</label>
+                                    <input class="form-control" type="text" id="m_5" name="m_5" placeholder="500" /> 
+                                </div>                              
+
+                                <div class="form-group ">
+                                    <label  for="n_5">nombre de période :</label>
+                                    <input class="form-control" type="text" id="n_5" name="n_5" placeholder="240" /> 
+                                </div>
+
+
+                                <button class="btn btn-primary"  id="btnCalculer_5">Calculer</button>
+
+
+                                <div class="form-group">
+                                    <br>
+                                    <label for="res_5">Résultat (taux):</label>
+                                    <input type="text" class="form-control" disabled="" name="res_5" id="res_5" />
+                                </div>
+
+                            </form>
+                        </div>
+                        </div>
+                    </div>        
+                    
+                    
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                              <a data-toggle="collapse" data-parent="#accordion" href="#collapse6">
+                              Hypo.princPer - Calcul de l'amortissement d'une période</a>
+                            </h4>
+                        </div>
+                        <div id="collapse6" class="panel-collapse collapse in">
+                          <div class="panel-body">
+                           <div class="param">
+                                <h4>Hypo.princPer = Hypo.amortissementPn = function amortissementPn(K0, n, t, p, dec)</h4>
+                               <ul>
+                                   <li>KO : capital emprunté</li>
+                                    <li>n : durée</li>
+                                    <li>t : taux</li>
+                                    <li>p : période pour laquelle on recherche l'amortissement</li>
+                                     <li>dec : nombre de décimales dans le résultat</li>                                
+                               </ul>
+                          </div>
+                            <form name="frmExemple6" id="frmExemple6">
+                                 <div class="form-group ">
+                                    <label  for="K0_6">Capital emprunté :</label>
+                                    <input class="form-control" type="text" id="K0_6" name="K0_6" placeholder="100000" /> 
+                                </div>                           
+
+                                <div class="form-group ">
+                                    <label  for="n_6">durée (nombre de périodes) :</label>
+                                    <input class="form-control" type="text" id="n_6" name="n_6" placeholder="240" /> 
+                                </div>                            
+
+                                <div class="form-group ">
+                                    <label  for="t_6">taux :</label>
+                                    <input class="form-control" type="text" id="t_6" name="t_6" placeholder="0.003274" /> 
+                                </div>  
+
+                                <div class="form-group ">
+                                    <label  for="p_6">Période de calcul :</label>
+                                    <input class="form-control" type="text" id="p_6" name="p_6" placeholder="1" /> 
+                                </div>                              
+                                <button class="btn btn-primary"  id="btnCalculer_6">Calculer</button>
+
+                                <div class="form-group">
+                                    <br>
+                                    <label for="res_6">Résultat (Montant de l'amortissement à la période p):</label>
+                                    <input type="text" class="form-control" disabled="" name="res_6" id="res_6" />
+                                </div>
+
+                            </form>
+                        </div>
+                        </div>
+                    </div>  
+                     
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                              <a data-toggle="collapse" data-parent="#accordion" href="#collapse7">
+                              Hypo.intPer - Calcul de l'intérêt d'une période</a>
+                            </h4>
+                        </div>
+                        <div id="collapse7" class="panel-collapse collapse in">
+                          <div class="panel-body">
+                           <div class="param">
+                                <h4>Hypo.intPer = Hypo.interetsPn = function interetsPn(K0, n, t, p, dec) </h4>
+                               <ul>
+                                   <li>KO : capital emprunté</li>
+                                    <li>n : durée</li>
+                                    <li>t : taux</li>
+                                    <li>p : période pour laquelle on recherche l'amortissement</li>
+                                    <li>dec : nombre de décimales dans le résultat</li>                                
+                               </ul>
+                          </div>
+                            <form name="frmExemple7" id="frmExemple7">
+                                 <div class="form-group ">
+                                    <label  for="K0_7">Capital emprunté :</label>
+                                    <input class="form-control" type="text" id="K0_7" name="K0_7" placeholder="100000" /> 
+                                </div>                           
+
+                                <div class="form-group ">
+                                    <label  for="n_7">durée (nombre de périodes) :</label>
+                                    <input class="form-control" type="text" id="n_7" name="n_7" placeholder="240" /> 
+                                </div>                            
+
+                                <div class="form-group ">
+                                    <label  for="t_7">taux :</label>
+                                    <input class="form-control" type="text" id="t_7" name="t_7" placeholder="0.003274" /> 
+                                </div>  
+
+                                <div class="form-group ">
+                                    <label  for="p_7">Période de calcul :</label>
+                                    <input class="form-control" type="text" id="p_7" name="p_7" placeholder="1" /> 
+                                </div>                              
+                                <button class="btn btn-primary"  id="btnCalculer_7">Calculer</button>
+
+                                <div class="form-group">
+                                    <br>
+                                    <label for="res_7">Résultat (Montant de l'intêret à la période p):</label>
+                                    <input type="text" class="form-control" disabled="" name="res_7" id="res_7" />
+                                </div>
+                           </form>
+                        </div>
+                        </div>
+                    </div>                   
+ 
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                              <a data-toggle="collapse" data-parent="#accordion" href="#collapse8">
+                              Hypo.cumulPrinc - Calcul de l'amortissement cumulé de la période p1 à la période p2</a>
+                            </h4>
+                        </div>
+                        <div id="collapse8" class="panel-collapse collapse in">
+                          <div class="panel-body">
+                           <div class="param">
+                                <h4>Hypo.cumulPrinc = function cumulPrinc(K0, n, t, p1, p2, dec)</h4>
+                               <ul>
+                                   <li>KO : capital emprunté</li>
+                                    <li>n : durée</li>
+                                    <li>t : taux</li>
+                                    <li>p1 : période de départ</li>
+                                    <li>p2 : période de fin</li>
+                                    <li>dec : nombre de décimales dans le résultat</li>                                
+                               </ul>
+                          </div>
+                            <form name="frmExemple8" id="frmExemple8">
+                                 <div class="form-group ">
+                                    <label  for="K0_8">Capital emprunté :</label>
+                                    <input class="form-control" type="text" id="K0_8" name="K0_8" placeholder="100000" /> 
+                                </div>                           
+
+                                <div class="form-group ">
+                                    <label  for="n_8">durée (nombre de périodes) :</label>
+                                    <input class="form-control" type="text" id="n_8" name="n_8" placeholder="240" /> 
+                                </div>                            
+
+                                <div class="form-group ">
+                                    <label  for="t_8">taux :</label>
+                                    <input class="form-control" type="text" id="t_8" name="t_8" placeholder="0.003274" /> 
+                                </div>  
+
+                                <div class="form-group ">
+                                    <label  for="p1_8">Période de départ :</label>
+                                    <input class="form-control" type="text" id="p1_8" name="p1_8" placeholder="1" /> 
+                                </div> 
+
+                                 <div class="form-group ">
+                                    <label  for="p2_8">Période de départ :</label>
+                                    <input class="form-control" type="text" id="p2_8" name="p2_8" placeholder="24" /> 
+                                </div>     
+
+                                <button class="btn btn-primary"  id="btnCalculer_8">Calculer</button>
+
+                                <div class="form-group">
+                                    <br>
+                                    <label for="res_8">Résultat (Montant de l'amortissement à la période p):</label>
+                                    <input type="text" class="form-control" disabled="" name="res_8" id="res_8" />
+                                </div>
+
+                            </form>
+
+                        </div>
+                        </div>
+                    </div>   
+                    
+                    
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                              <a data-toggle="collapse" data-parent="#accordion" href="#collapse9">
+                              Hypo.cumulInt - Calcul de l'intérêt cumulé de la période p1 à la période p2</a>
+                            </h4>
+                        </div>
+                        <div id="collapse9" class="panel-collapse collapse in">
+                          <div class="panel-body">
+                           <div class="param">
+                                <h4>Hypo.cumulInt = function cumulInt(K0, n, t, p1, p2, dec)</h4>
+                               <ul>
+                                   <li>KO : capital emprunté</li>
+                                    <li>n : durée</li>
+                                    <li>t : taux</li>
+                                    <li>p1 : période de départ</li>
+                                    <li>p2 : période de fin</li>
+                                    <li>dec : nombre de décimales dans le résultat</li>                                
+                               </ul>
+                          </div>
+                             <form name="frmExemple9" id="frmExemple9">
+                                 <div class="form-group ">
+                                    <label  for="K0_9">Capital emprunté :</label>
+                                    <input class="form-control" type="text" id="K0_9" name="K0_9" placeholder="100000" /> 
+                                </div>                           
+
+                                <div class="form-group ">
+                                    <label  for="n_9">durée (nombre de périodes) :</label>
+                                    <input class="form-control" type="text" id="n_9" name="n_9" placeholder="240" /> 
+                                </div>                            
+
+                                <div class="form-group ">
+                                    <label  for="t_9">taux :</label>
+                                    <input class="form-control" type="text" id="t_9" name="t_9" placeholder="0.003274" /> 
+                                </div>  
+
+                                <div class="form-group ">
+                                    <label  for="p1_9">Période de départ :</label>
+                                    <input class="form-control" type="text" id="p1_9" name="p1_9" placeholder="1" /> 
+                                </div> 
+
+                                 <div class="form-group ">
+                                    <label  for="p2_9">Période de départ :</label>
+                                    <input class="form-control" type="text" id="p2_9" name="p2_9" placeholder="24" /> 
+                                </div>     
+
+                                <button class="btn btn-primary"  id="btnCalculer_9">Calculer</button>
+
+                                <div class="form-group">
+                                    <br>
+                                    <label for="res_9">Résultat (Montant de l'amortissement à la période p):</label>
+                                    <input type="text" class="form-control" disabled="" name="res_9" id="res_9" />
+                                </div>
+
+                            </form>
+
+                        </div>
+                        </div>
+                    </div>                          
                     
                     
                 </div>
+                    
+                     
             </div>
+                    
         </div>
+    </div>
+
         
      <script src="js/exemple1.js"></script>   
      <script src="js/exemple2.js"></script>  
-        
+     <script src="js/exemple3.js"></script>  
+     <script src="js/exemple4.js"></script> 
+     <script src="js/exemple5.js"></script> 
+     <script src="js/exemple6.js"></script> 
+     <script src="js/exemple7.js"></script> 
+     <script src="js/exemple8.js"></script> 
+     <script src="js/exemple9.js"></script> 
     </body>
 
 

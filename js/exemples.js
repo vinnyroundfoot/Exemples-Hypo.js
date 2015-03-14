@@ -1,0 +1,10 @@
+
+
+$(function() {
+
+    $('.panel').slideUp();
+
+
+});
+
+
