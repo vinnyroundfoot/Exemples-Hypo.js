@@ -2,9 +2,12 @@
 
 $(function() {
 
-    $('.panel').slideUp();
+   $('.param').hide();
+   $('.def').hide();
 
-
+   $('#btn-show-def').on('click',function () {
+       $('.param').toggle();
+       $('.def').toggle();
+   });
 });
-
 

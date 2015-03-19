@@ -30,8 +30,6 @@
     }
 //-----------------------------------
 
-
-
     /**
      * Calcul de l'arrondi d'un nombre
      * @param {number} m nombre à arrondir
@@ -46,7 +44,6 @@
         }
         return montantArrondi;
     };
-
     
     /**
      * Conversion d'une variable en nombre (si possible)
@@ -583,6 +580,57 @@
 
         return arrondi(Kr, dec);
     };
+    
+    
+    /**
+     * Détermination du tableau d'amortissement pour un emprunt de K0 pour une durée n 
+     * à un taux t
+     * 
+     * @param {number} K0 capital emprunté
+     * @param {number} n  nombre de périodes
+     * @param {float} t taux d'intérêt pour la période
+     * @param {number} p1 période de début de calcul du tableau d'amortissement
+     * @param {number} p2 période de fin de calcul du tableau d'amortissement
+     * @return {array} objets représentant chaque ligne du tableau d'amortissement
+     */
+    Hypo.TableauAmort = function TableauAmort(K0, n, t, p1, p2) {
+        
+        if (typeof p1 === "undefined" || parseInt(p1, 10) === p1)  {
+            p1 = 1;
+        }
+        
+        if (typeof p2 === "undefined" || parseInt(p2, 10) === p1)  {
+            p2 = n;
+        }        
+        
+        var i = p1-1,
+            mens = this.VPM(K0, n, t),
+            srd = ( i===0 ? K0 : this.SRDPn (mens, n, t, i)),        
+            tableau = [
+                    {   'K0' : K0,
+                        'n'  : n,
+                        't'  : t,
+                        'm'  : mens,
+                        'p1' : p1,
+                        'p2' : p2
+                    }
+                ];
+        
+        while (srd > 0 && i <p2)
+        {
+           i = i + 1;
+           var ligne = {};
+           ligne.periode = i;
+           ligne.solde_dep = srd;
+           ligne.interet = srd * t;
+           ligne.amort = mens - ligne.interet;
+           ligne.srd = ligne.solde_dep - ligne.amort;
+           srd = ligne.srd;
+           tableau.push(ligne);
+        }
+        
+        return tableau;
+    }
 
 // ------------------------------------------
 

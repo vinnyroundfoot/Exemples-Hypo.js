@@ -3,6 +3,10 @@
     Author     : vincent
 */
 
+body {
+    min-width:  700px;
+    min-height: 400px
+}
 
 .exemples h4 {
    /* margin-top: 20px; */

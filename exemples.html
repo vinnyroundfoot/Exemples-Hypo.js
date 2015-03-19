@@ -9,29 +9,43 @@
     <link rel="stylesheet" media="screen" type="text/css" href="css/exemples.css" />
     <script src="js/jquery/jquery.js"></script>
     <script src="js/bootstrap/bootstrap.min.js"></script>
-    <script src="js/hypo.js"></script>
+    <script src="js/hypo/hypo.js"></script>
     
 </head>
 
     <body>
-        <div class="container exemples">
+        <div class="exemples container-fluid">
             <div class="row">
             
                 <div class="col-md-1"></div>    
              
-                <div class="col-md-10">
-                    <h1>Exemples d'utilisation des fonctions de Hypo.js</h1>    
-                    <br>
+                <div class="col-md-11">
+                    
+                    <div class="row">
+                        <div class="col-md-1">
+                            <img src="images/hyppo_small_grey.png" class="img-responsive"/>
+                        </div>
+                    
+                        <div class="col-md-11">
+                           <h1>Utilisation des fonctions de Hypo.js</h1>         
+                        </div> 
+                        
+                        <div class="col-md-offset-10 col-md-2">
+                            <p><button id="btn-show-def" class="btn btn-xs btn-info">définition fonction</button></p>
+                        </div>
+                            
+                    </div>
+                    
                     
                 <div class="panel-group" id="accordion">
-                    <div class="panel panel-primary">
+                    <div class="panel panel-default">
                         <div class="panel-heading">
                             <h4 class="panel-title">
                               <a data-toggle="collapse" data-parent="#accordion" href="#collapse1">
-                              Hypo.convTx - Conversion de taux</a>
+                              <span class="def">Hypo.convTx - </span>Conversion de taux</a>
                             </h4>
                         </div>
-                        <div id="collapse1" class="panel-collapse collapse in">
+                        <div id="collapse1" class="panel-collapse collapse">
                           <div class="panel-body">
                            <div class="param">
                                <h4>Hypo.convTx = function convTx(taux, pOri, pDest, dec)</h4>
@@ -82,14 +96,14 @@
                         </div>
                     </div>
 
-                     <div class="panel panel-primary">
+                     <div class="panel panel-default">
                         <div class="panel-heading">
                             <h4 class="panel-title">
                               <a data-toggle="collapse" data-parent="#accordion" href="#collapse2">
-                              Hypo.VPM - Calcul de la mensualité d'un emprunt</a>
+                               <span class="def">Hypo.VPM - </span>Calcul de la mensualité d'un emprunt</a>
                             </h4>
                         </div>
-                        <div id="collapse2" class="panel-collapse collapse in">
+                        <div id="collapse2" class="panel-collapse collapse">
                           <div class="panel-body">
                            <div class="param">
                                <h4>Hypo.mensualite = Hypo.VPM = function VPM(K0, n, t, dec)</h4>
@@ -131,14 +145,14 @@
                         </div>
                     </div>                   
                     
-                    <div class="panel panel-primary">
+                    <div class="panel panel-default">
                         <div class="panel-heading">
                             <h4 class="panel-title">
                               <a data-toggle="collapse" data-parent="#accordion" href="#collapse3">
-                              Hypo.VA - Calcul de la valeur actuelle d'un emprunt sur base de remboursements constants</a>
+                               <span class="def">Hypo.VA - </span>Calcul de la valeur actuelle d'un emprunt sur base de remboursements constants</a>
                             </h4>
                         </div>
-                        <div id="collapse3" class="panel-collapse collapse in">
+                        <div id="collapse3" class="panel-collapse collapse">
                           <div class="panel-body">
                            <div class="param">
                                 <h4>Hypo.VA = function VA(m, n, t, dec) </h4>
@@ -181,14 +195,14 @@
                     </div>                     
                     
                     
-                    <div class="panel panel-primary">
+                    <div class="panel panel-default">
                         <div class="panel-heading">
                             <h4 class="panel-title">
                               <a data-toggle="collapse" data-parent="#accordion" href="#collapse4">
-                              Hypo.duree - Calcul de la durée de remboursement en fonction du capital de départ, de la mensualité et du taux</a>
+                               <span class="def">Hypo.duree - </span>Calcul de la durée de remboursement en fonction du capital de départ, de la mensualité et du taux</a>
                             </h4>
                         </div>
-                        <div id="collapse4" class="panel-collapse collapse in">
+                        <div id="collapse4" class="panel-collapse collapse">
                           <div class="panel-body">
                            <div class="param">
                                 <h4>Hypo.duree = function duree(K0, m, t, dec)</h4>
@@ -230,14 +244,14 @@
                         </div>
                     </div>                         
                     
-                    <div class="panel panel-primary">
+                    <div class="panel panel-default">
                         <div class="panel-heading">
                             <h4 class="panel-title">
                               <a data-toggle="collapse" data-parent="#accordion" href="#collapse5">
-                              Hypo.taux - Détermination du taux d'un emprunt en fonction du capital de départ, de la mensualité et de la durée</a>
+                               <span class="def">Hypo.taux - </span>Détermination du taux d'un emprunt en fonction du capital de départ, de la mensualité et de la durée</a>
                             </h4>
                         </div>
-                        <div id="collapse5" class="panel-collapse collapse in">
+                        <div id="collapse5" class="panel-collapse collapse">
                           <div class="panel-body">
                            <div class="param">
                                 <h4>Hypo.taux = function taux(K0, n, m, f)</h4>
@@ -281,14 +295,14 @@
                     </div>        
                     
                     
-                    <div class="panel panel-primary">
+                    <div class="panel panel-default">
                         <div class="panel-heading">
                             <h4 class="panel-title">
                               <a data-toggle="collapse" data-parent="#accordion" href="#collapse6">
-                              Hypo.princPer - Calcul de l'amortissement d'une période</a>
+                               <span class="def">Hypo.princPer - </span>Calcul de l'amortissement d'une période</a>
                             </h4>
                         </div>
-                        <div id="collapse6" class="panel-collapse collapse in">
+                        <div id="collapse6" class="panel-collapse collapse">
                           <div class="panel-body">
                            <div class="param">
                                 <h4>Hypo.princPer = Hypo.amortissementPn = function amortissementPn(K0, n, t, p, dec)</h4>
@@ -333,14 +347,14 @@
                         </div>
                     </div>  
                      
-                    <div class="panel panel-primary">
+                    <div class="panel panel-default">
                         <div class="panel-heading">
                             <h4 class="panel-title">
                               <a data-toggle="collapse" data-parent="#accordion" href="#collapse7">
-                              Hypo.intPer - Calcul de l'intérêt d'une période</a>
+                               <span class="def">Hypo.intPer - </span>Calcul de l'intérêt d'une période</a>
                             </h4>
                         </div>
-                        <div id="collapse7" class="panel-collapse collapse in">
+                        <div id="collapse7" class="panel-collapse collapse">
                           <div class="panel-body">
                            <div class="param">
                                 <h4>Hypo.intPer = Hypo.interetsPn = function interetsPn(K0, n, t, p, dec) </h4>
@@ -384,14 +398,14 @@
                         </div>
                     </div>                   
  
-                    <div class="panel panel-primary">
+                    <div class="panel panel-default">
                         <div class="panel-heading">
                             <h4 class="panel-title">
                               <a data-toggle="collapse" data-parent="#accordion" href="#collapse8">
-                              Hypo.cumulPrinc - Calcul de l'amortissement cumulé de la période p1 à la période p2</a>
+                               <span class="def">Hypo.cumulPrinc - </span>Calcul de l'amortissement cumulé de la période p1 à la période p2</a>
                             </h4>
                         </div>
-                        <div id="collapse8" class="panel-collapse collapse in">
+                        <div id="collapse8" class="panel-collapse collapse">
                           <div class="panel-body">
                            <div class="param">
                                 <h4>Hypo.cumulPrinc = function cumulPrinc(K0, n, t, p1, p2, dec)</h4>
@@ -445,14 +459,14 @@
                     </div>   
                     
                     
-                    <div class="panel panel-primary">
+                    <div class="panel panel-default">
                         <div class="panel-heading">
                             <h4 class="panel-title">
                               <a data-toggle="collapse" data-parent="#accordion" href="#collapse9">
-                              Hypo.cumulInt - Calcul de l'intérêt cumulé de la période p1 à la période p2</a>
+                               <span class="def">Hypo.cumulInt - </span>Calcul de l'intérêt cumulé de la période p1 à la période p2</a>
                             </h4>
                         </div>
-                        <div id="collapse9" class="panel-collapse collapse in">
+                        <div id="collapse9" class="panel-collapse collapse">
                           <div class="panel-body">
                            <div class="param">
                                 <h4>Hypo.cumulInt = function cumulInt(K0, n, t, p1, p2, dec)</h4>
@@ -524,6 +538,7 @@
      <script src="js/exemple7.js"></script> 
      <script src="js/exemple8.js"></script> 
      <script src="js/exemple9.js"></script> 
+     <script src="js/exemples.js"></script> 
     </body>
 
 
