@@ -11,7 +11,7 @@
         root = this,
         alias1;
         
-    Hypo.VERSION = '0.1a';
+    Hypo.VERSION = '0.2';
 
     if (typeof alias === "string" && alias.length > 0) {
         alias1 = alias;
@@ -120,13 +120,16 @@
      * @return {float} valeur acquise
     */
     Hypo.VC = function VC(m, n, t, dec) {
+        if (t===0) {
+            return arrondi(m * n, dec);
+        }
         var Kn = m * (Math.pow(1 + t, n) - 1) / t;
         return arrondi(Kn, dec);
     };
 
     /**
-     * CalCul de la valeur actuelle d'un capital Kn qui a été placé pendant
-     * n périodes à un taux t
+     * CalCul de la valeur actuelle d'un capital Kn dont la valeur actuelle a été placée
+     * pendant n périodes à un taux t
      *
      *            kn
      *   K0 = ------------
@@ -184,7 +187,7 @@
      * @param {number} dec nombre de décimales dans le résultat (optionnel)
      * @return {float} taux
     */
-    Hypo.Taux_K = function Taux_K(K0, Kn, n, dec) {
+    Hypo.Taux_Kn = function Taux_Kn(K0, Kn, n, dec) {
         var r = Kn / K0,
             tx = Math.pow(r, 1 / n) - 1;
         return arrondi(tx, dec);
@@ -272,7 +275,7 @@
      * @param {number} dec nombre de décimales dans le résultat (optionnel)
      * @return {object}
     */
-    Hypo.duree_K = function duree_K(K0, Kn, t, dec) {
+    Hypo.duree_Kn = function duree_Kn(K0, Kn, t) {
         
         K0  = this.convStrNum(K0);
         Kn  = this.convStrNum(Kn);
@@ -281,17 +284,8 @@
         
         var r = Kn / K0;
         var duree = Math.log(r) / Math.log(1 + t);
-        var annees = parseInt(duree, 10);
-        var mois = (duree - annees) * 12;
-        var jours = parseInt((mois - parseInt(mois, 10)) * 30, 10);
-        mois = parseInt(mois, 10);
-
-        return {
-            duree : duree,
-            annees : annees,
-            mois : mois,
-            jours : jours
-        };
+        
+        return duree;
     };
 
     /**
@@ -307,14 +301,12 @@
      * @param {number} K0 capital emprunté
      * @param {number} m mensualité
      * @param {number} t  taux appliqué
-     * @param {number} dec nombre de décimales dans le résultat (optionnel)
-     * @return {object}
+     * @return {number}
     */
-    Hypo.duree = function duree(K0, m, t, dec) {
+    Hypo.duree = function duree(K0, m, t) {
         K0  = this.convStrNum(K0);
         m   = this.convStrNum(m); 
         t   = this.convStrNum(t);   
-        dec  = this.convStrNum(dec);
         
         return (Math.log(m) - Math.log(m - K0 * t)) / Math.log( 1 +t);
     };
@@ -344,8 +336,8 @@
 
 
     /**
-     * Calcul de la mensualité d'un emprunt K0 souscrit pour n périodes
-     * à un taux t en fonction de la valeur acquise
+     * Calcul de la mensualité d'un placement pendant n périodes
+     * à un taux t en fonction de la valeur acquise souhaitée
      * n pérodes à un taux t
      *
      *                   t
@@ -635,7 +627,7 @@
 // ------------------------------------------
 
     Hypo.calcTAEG = function calcTAEG(K0, n, t, f) {
-        var mens = Hypo.mensualite(K0, n, t, 2),
+        var mens = this.mensualite(K0, n, t, 2),
             min = arrondi(t, 6),
             max = 1,
             tst = (min + max) / 2;
@@ -645,7 +637,7 @@
         };
 
         if (f === 0) {
-            return Hypo.convTx(t, 12, 1, 4);
+            return this.convTx(t, 12, 1, 4);
         }
 
         var f_min = val_polyn(min);
@@ -663,7 +655,7 @@
             }
             tst = (min + max) / 2;
         }
-        return Hypo.convTx(tst, 12, 1, 4);
+        return this.convTx(tst, 12, 1, 4);
     };
 
     Hypo.calcTAEGMens = function calcTAEGMens(K0, n, m, f) {
@@ -691,7 +683,7 @@
             }
             tst = (min + max) / 2;
         }
-        return Hypo.convTx(tst, 12, 1, 4);
+        return this.convTx(tst, 12, 1, 4);
     };
 
 // ------------------------------------------
