@@ -187,7 +187,7 @@
      * @param {number} dec nombre de décimales dans le résultat (optionnel)
      * @return {float} taux
     */
-    Hypo.Taux_Kn = function Taux_Kn(K0, Kn, n, dec) {
+    Hypo.taux_Kn = function taux_Kn(K0, Kn, n, dec) {
         var r = Kn / K0,
             tx = Math.pow(r, 1 / n) - 1;
         return arrondi(tx, dec);
@@ -419,7 +419,7 @@
      * @param {number} p1 période de l'amortissement donné
      * @param {number} p2 période de calcul de l'amortissement
      * @param {number} dec nombre de décimales dans le résultat (optionnel)
-     * @return {float} amortissement de la période p
+     * @return {float} amortissement de la période p2
      */
     Hypo.princPerP = Hypo.amortissementPnp = function amortissementPnp(n, t, apn1, p1, p2, dec) {
         var apn2 = apn1 * Math.pow(1 + t, p2 - p1);
@@ -548,7 +548,7 @@
     };
 
     /**
-     * Calcul du solde remboursé à la période p d'un emprunt K0 souscrit pour n périodes
+     * Calcul du capital remboursé à la période p d'un emprunt K0 souscrit pour n périodes
      * à un taux t
      * n pérodes à un taux t
      *
@@ -565,7 +565,7 @@
      * @param {number} dec nombre de décimales dans le résultat (optionnel)
      * @return {float} montant de l'emprunt déjà remboursé à la période p
     */
-    Hypo.capRmb =  function CapRmb(K0, n, t, p, dec) {
+    Hypo.capRmb_K =  function CapRmb_K(K0, n, t, p, dec) {
 
         var A = Hypo.amortissementP1(K0, n, t);
         var Kr = A * ((Math.pow(1 + t, p) - 1) / t);
@@ -585,7 +585,7 @@
      * @param {number} p2 période de fin de calcul du tableau d'amortissement
      * @return {array} objets représentant chaque ligne du tableau d'amortissement
      */
-    Hypo.TableauAmort = function TableauAmort(K0, n, t, p1, p2) {
+    Hypo.tableauAmort = function tableauAmort(K0, n, t, p1, p2) {
         
         if (typeof p1 === "undefined" || parseInt(p1, 10) === p1)  {
             p1 = 1;
