@@ -81,6 +81,10 @@
         pDest = this.convStrNum(pDest);
         dec   = this.convStrNum(dec);
         
+        if (taux === 0) {
+            return 0;
+        }
+        
         if (pOri === pDest) {
             return taux;
         }
@@ -101,6 +105,11 @@
      * @return {float} valeur acquise
     */
     Hypo.VC_K = Hypo.valeurAcquise = function VC_K(K0, n, t, dec) {
+        
+        if (t === 0 || n === 0) {
+            return K0;
+        }
+        
         var K = K0 * Math.pow(1 + t, n);
         return arrondi(K, dec);
     };
@@ -120,6 +129,11 @@
      * @return {float} valeur acquise
     */
     Hypo.VC = function VC(m, n, t, dec) {
+        
+        if (n === 0) {
+            return m;
+        }
+        
         if (t===0) {
             return arrondi(m * n, dec);
         }
@@ -142,6 +156,15 @@
      * @return {float} valeur actuelle
     */
     Hypo.VA_K = Hypo.valeurActuelle =  function K0(Kn, n, t, dec) {
+        
+        if (n === 0) {
+            return Kn;
+        }
+        
+        if (t === 0) {
+            return Kn;
+        }
+        
         var Kzero = Kn / Math.pow(1 + t, n);
         return arrondi(Kzero, dec);
     };
@@ -166,6 +189,10 @@
         n  = this.convStrNum(n);
         t  = this.convStrNum(t);
         dec   = this.convStrNum(dec); 
+        
+        if (t === 0) {
+            return arrondi(m * n, 2);
+        }
         
         var Kzero = m * (1 - Math.pow(1 + t, -n)) / t;
         return arrondi(Kzero, dec);
@@ -282,6 +309,10 @@
         t   = this.convStrNum(t);   
         dec  = this.convStrNum(dec);
         
+        if (K0 === 0 || t === 0 || K0 === Kn) {
+            return 0;
+        }
+        
         var r = Kn / K0;
         var duree = Math.log(r) / Math.log(1 + t);
         
@@ -308,6 +339,10 @@
         m   = this.convStrNum(m); 
         t   = this.convStrNum(t);   
         
+        if (t === 0 ) {
+            return arrondi(K0 / m, 2);
+        }
+        
         return (Math.log(m) - Math.log(m - K0 * t)) / Math.log( 1 +t);
     };
 
@@ -327,10 +362,18 @@
      * @return {float} mensualité
     */
     Hypo.mensualite = Hypo.VPM = function VPM(K0, n, t, dec) {
-         K0  = this.convStrNum(K0);
+        K0  = this.convStrNum(K0);
         n  = this.convStrNum(n);
         t = this.convStrNum(t);
         dec   = this.convStrNum(dec);
+        
+        if (n === 0) {
+            return 0;
+        }
+        
+        if (t === 0) {
+            return arrondi(K0 / n, dec);
+        }
         return arrondi(K0 * t / (1 - Math.pow(1 + t, -n)), dec);
     };
 
@@ -351,6 +394,11 @@
      * @return {float} mensualité
     */
     Hypo.mensualite_Kn = Hypo.VPM_Kn = function VPM_Kn(Kn, n, t, dec) {
+        
+        if (t === 0) {
+            return arrondi(Kn / n, 2);
+        }
+        
         return arrondi(Kn * t / ((Math.pow(1 + t, n) - 1)), dec);
     };
 
@@ -369,6 +417,15 @@
      * @return {float} amortissement de la 1ere période
     */
     Hypo.princPer1 = Hypo.amortissementP1 = function amortissementP1(K0, n, t, dec) {
+        
+        if (n === 0) {
+            return K0;
+        }
+        
+        if (t === 0) {
+            return this.VPM(K0, n, t, dec);
+        }        
+        
         var A = (K0 * t) / (Math.pow(1 + t, n) - 1);
         return arrondi(A, dec);
     };
@@ -395,10 +452,10 @@
         t   = this.convStrNum(t);
         p   = this.convStrNum(p);
         dec = this.convStrNum(dec);        
-        
-        
-        var A = this.princPer1(K0, n, t);
-        if (p===1) {
+            
+            
+        var A = this.princPer1(K0, n, t, dec);
+        if (p===1 || t===0) {
            return arrondi(A, dec); 
         }else{
             var Apn = Math.pow(1 + t, p - 1) * A;
@@ -422,6 +479,11 @@
      * @return {float} amortissement de la période p2
      */
     Hypo.princPerP = Hypo.amortissementPnp = function amortissementPnp(n, t, apn1, p1, p2, dec) {
+        
+        if (t === 0) {
+            return apn1;
+        }
+        
         var apn2 = apn1 * Math.pow(1 + t, p2 - p1);
         return arrondi(apn2, dec);
     };
@@ -489,6 +551,11 @@
     };
 
     Hypo.cumulInt = function cumulInt(K0, n, t, p1, p2, dec) {
+        
+        if (t === 0) {
+            return 0;
+        }
+        
         var ip1 = p1,
             ip2 = p2,
             sumi = 0,
@@ -502,6 +569,11 @@
     };
 
     Hypo.intTotaux = function intTotaux(K0, m, n, dec) {
+        
+        if (K0 === 0 || m === 0 || n === 0) {
+            return 0;
+        }
+        
         return arrondi((m * n) - K0, dec);
     };
 
@@ -565,7 +637,7 @@
      * @param {number} dec nombre de décimales dans le résultat (optionnel)
      * @return {float} montant de l'emprunt déjà remboursé à la période p
     */
-    Hypo.capRmb_K =  function CapRmb_K(K0, n, t, p, dec) {
+    Hypo.capRmb_K =  function capRmb_K(K0, n, t, p, dec) {
 
         var A = Hypo.amortissementP1(K0, n, t);
         var Kr = A * ((Math.pow(1 + t, p) - 1) / t);
