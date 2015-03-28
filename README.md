@@ -66,7 +66,18 @@ Fonctions présentes dans la librairie :
     dec =2;         // nombre de décimales dans le résultat
 
     var res = Hypo.VPM(K0, n, t, dec); // 653.83
+
+**Hypo.VPM_amd** : Pour un emprunt remboursé en **n** périodes à un taux **t** et présentant **n_amd** périodes d'amortissement différé,  détermination de la mensualité (**m_amd**) appliquée pendant la période d'amortissement différé et la mensualité (**m**) appliquée pendant la durée restante du prêt.
+
+    //exemple
+        
+    var K0 = 100000, // capital emprunté
+        n = 240,  // nombre de mois
+        t = .004074, // taux mensuel (5% en annuel)
+        dec =2;  // nombre de décimales dans le résultat 
     
+    var res = Hypo.VPM_amd(K0, n, t, 36, dec); // {m_amd: 407.4, m: 722.73, cumulInt: 14666.4}  
+
 **Hypo.taux** : approximation du taux d'un emprunt **K0** en fonction de sa mensualité **m**, de sa durée **n** et d'éventuels frais **f** à intégrer dans le taux.
 
     //exemple
@@ -238,4 +249,24 @@ Fonctions présentes dans la librairie :
 #### Tableau d'amortissement
 
 **Hypo.tableauAmort** : établissement du tableau d'amortissement de la période **p1** à la période **p2** d'un emprunt **K0** remboursé en **n** périodes à un taux **t**.
+
+**Hypo.tableauAmort_amd** : établissement du tableau d'amortissement de la période **p1** à la période **p2** d'un emprunt **K0** remboursé en **n** périodes à un taux **t** présentant un amortissement différé de **n_amd** périodes.
  
+#### Fonctions "Helper"
+
+**Hypo.arrondi** : arrondi à **dec** décimales d'un nombre **m**
+
+    //exemple
+        
+    var m = 123.4567,
+        res = Hypo.arrondi(m, 2); //123.46
+
+**Hypo.convTx** : conversion d'un taux **t** exprimé en un type de période **pOri** (ex. annuel) vers un taux exprimé en un autre type de période **pDest** (ex.  mensuel). Les valeurs pour pOri et pDest peuvent être : 1 - annuel, 2 - semestriel, 4 - trimestriel, 12 - mensuel)
+
+    //exemple
+    var t = .04, // taux 4% annuel
+        pOri = 1, // taux exprimé en annuel
+        pDest = 12, // onversionen taux mensuel
+        dec = 6; //nombre de décimales dans le résultat    
+    
+    var res = Hypo.convTx(t, pOri, pDest, dec); //0.003274

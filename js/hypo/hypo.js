@@ -403,6 +403,26 @@
     };
 
     /**
+     * Pour un emprunt remboursé en n périodes à un taux t et présentant n_amd périodes d'amortissement différé,  
+     * détermination de la mensualité (m_amd) appliquée pendant la période d'amortissement différé et la mensualité (m)
+     * appliquée pendant la durée restante du prêt
+     * 
+     * @param {number} K0 capital emprunté
+     * @param {number} n  nombre de périodes
+     * @param {float} t taux d'intérêt pour la période
+     * @param {number} n_mad nombre de périodes d'amortissement différé
+     * @return {array} objet représentant la mensualité pendant l'AMD (m_amd), la mensualité (m) pendant la durée de prêt restante et le total des intérêts (cumulInt) pendant la période d'AMD
+     */    
+    Hypo.VPM_amd = function VPM_amd(K0, n, t, n_amd, dec) {
+        var m_amd = arrondi( K0 * t, 2),
+            intp = m_amd * n_amd,
+            m = this.VPM(K0, n - n_amd, t, dec);
+            return {'m_amd' : m_amd, 'm' : m, 'cumulInt' : intp };
+        return m_amd;
+    };
+
+
+    /**
      * Calcul de l'amortissement (A) de 1ere période
      * d'un emprunt K0 souscrit pour n périodes à un taux t
      *
@@ -659,7 +679,7 @@
      */
     Hypo.tableauAmort = function tableauAmort(K0, n, t, p1, p2) {
         
-        if (typeof p1 === "undefined" || parseInt(p1, 10) === p1)  {
+        if (typeof p1 === "undefined" || parseInt(p1, 10) !== p1)  {
             p1 = 1;
         }
         
@@ -668,7 +688,7 @@
         }        
         
         var i = p1-1,
-            mens = this.VPM(K0, n, t),
+            mens = this.VPM(K0, n, t, 2),
             srd = ( i===0 ? K0 : this.SRDPn (mens, n, t, i)),        
             tableau = [
                     {   'K0' : K0,
@@ -687,14 +707,92 @@
            ligne.periode = i;
            ligne.solde_dep = srd;
            ligne.interet = srd * t;
-           ligne.amort = mens - ligne.interet;
-           ligne.srd = ligne.solde_dep - ligne.amort;
+           ligne.amort = arrondi(mens - ligne.interet, 2);
+           ligne.srd = arrondi(ligne.solde_dep - ligne.amort, 2);
            srd = ligne.srd;
            tableau.push(ligne);
         }
         
         return tableau;
-    }
+    };
+
+    /**
+     * Détermination du tableau d'amortissement pour un emprunt de K0 pour une durée n 
+     * à un taux t avec un amortissement différé de n_amd périodes
+     * 
+     * @param {number} K0 capital emprunté
+     * @param {number} n  nombre de périodes
+     * @param {float} t taux d'intérêt pour la période
+     * @param {number} n_amd nombre de périodes d'amortissements différés
+     * @param {number} p1 période de début de calcul du tableau d'amortissement
+     * @param {number} p2 période de fin de calcul du tableau d'amortissement
+     * @return {array} objets représentant chaque ligne du tableau d'amortissement
+     */
+    Hypo.tableauAmort_amd = function tableauAmort_amd(K0, n, t, n_amd, p1, p2) {
+        
+        if (typeof p1 === "undefined" || parseInt(p1, 10) !== p1)  {
+            p1 = 1;
+        }
+        
+        if (typeof p2 === "undefined" || parseInt(p2, 10) !== p2)  {
+            p2 = n;
+        }        
+
+         if (typeof n_amd === "undefined" || parseInt(n_amd, 10) !== n_amd)  {
+            n_amd = 0;
+        }             
+        
+        if (n_amd === 0) {
+            return this.tableauAmort(K0, n, t, n_amd);
+        }
+        
+        var amd = this.VPM_amd(K0, n, t, n_amd, 2),
+            i = 0,
+            mens = amd.m_amd;
+            srd = ( i===0 ? K0 : this.SRDPn (mens, n, t, i)),        
+            tableau = [
+                    {   'K0' : K0,
+                        'n'  : n,
+                        't'  : t,
+                        'm_amd'  : mens,
+                        'p1' : p1,
+                        'p2' : p2
+                    }
+                ];
+        
+        while (i< n_amd)
+        {
+           i = i + 1;
+           var ligne = {};
+           ligne.periode = i;
+           ligne.solde_dep = K0;
+           ligne.interet = arrondi(K0 * t,2);
+           ligne.amort = 0;
+           ligne.srd = K0;
+           tableau.push(ligne);
+        }
+        
+        srd = K0;
+        mens = this.VPM(srd, n - n_amd, t, 2);
+        tableau[0].m = mens;
+
+        while (srd > 0 && i < n)
+        {
+           i = i + 1;
+           var ligne = {};
+           ligne.periode = i;
+           ligne.solde_dep = srd;
+           ligne.interet = arrondi(srd * t, 2);
+           ligne.amort = arrondi(mens - ligne.interet, 2);
+           ligne.srd = arrondi(ligne.solde_dep - ligne.amort, 2);
+           srd = ligne.srd;
+           tableau.push(ligne);
+        }       
+        
+        var t = [];
+        t.push(tableau[0]);
+        return t.concat(tableau.slice(p1, p2+1));
+    };
 
 // ------------------------------------------
 
