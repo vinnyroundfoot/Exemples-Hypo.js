@@ -361,9 +361,10 @@
      * @param {number} dec nombre de décimales dans le résultat (optionnel)
      * @return {float} mensualité
     */
-    Hypo.mensualite = Hypo.VPM = function VPM(K0, n, t, dec) {
+    Hypo.mensualite = Hypo.VPM = function VPM(K0, n, t, n_amd, dec) {
         K0  = this.convStrNum(K0);
         n  = this.convStrNum(n);
+        n_amd = this.convStrNum(n_amd);
         t = this.convStrNum(t);
         dec   = this.convStrNum(dec);
         
@@ -372,9 +373,9 @@
         }
         
         if (t === 0) {
-            return arrondi(K0 / n, dec);
+            return arrondi(K0 / (n - n_amd) , dec);
         }
-        return arrondi(K0 * t / (1 - Math.pow(1 + t, -n)), dec);
+        return arrondi(K0 * t / (1 - Math.pow(1 + t, (-n + n_amd))), dec);
     };
 
 
